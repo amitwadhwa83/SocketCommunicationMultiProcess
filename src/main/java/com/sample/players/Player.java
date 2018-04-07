@@ -22,6 +22,7 @@ public class Player {
     public static final String HOST = "127.0.0.1";
     public static final int PORT = 5000;
     private static final String COUNT_DELIMITER = ":";
+    private static final int MAX_MESAGE_COUNT = 10;
 
     /**
      * This method is used to initiate the communication between Player(s). It takes
@@ -29,8 +30,8 @@ public class Player {
      */
     public void startInitiator() {
 	int messageCount = 0;
-	BufferedReader dis = null;
-	DataInputStream disResponse = null;
+	BufferedReader br = null;
+	DataInputStream dis = null;
 	DataOutputStream dos = null;
 	Socket socket = null;
 	try {
@@ -39,31 +40,32 @@ public class Player {
 	    System.out.println("Initiator:Connected");
 
 	    // Create I/O streams for communication
-	    dis = new BufferedReader(new InputStreamReader(System.in));
-	    disResponse = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+	    br = new BufferedReader(new InputStreamReader(System.in));
+	    dis = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
 	    dos = new DataOutputStream(socket.getOutputStream());
 
-	    // Reads message until 10 messages are received and sent back
-	    while (messageCount != 10) {
+	    // Reads message until allowed threshold of messages read, forwarded and
+	    // received back
+	    while (messageCount != MAX_MESAGE_COUNT) {
 		messageCount++;
-		String line = dis.readLine();
+		String line = br.readLine();
 		String message = line + COUNT_DELIMITER + messageCount;
 		System.out.println("Initiator:Sending message:" + message);
 
 		// Sending message with delimited count
 		dos.writeUTF(message);
 
-		System.out.println("Initiator:Got back message:" + disResponse.readUTF());
+		System.out.println("Initiator:Got back message:" + dis.readUTF());
 	    }
 	} catch (UnknownHostException unknownHostException) {
 	    System.out.println("Initiator:UnknownHost Exception:" + unknownHostException);
 	    unknownHostException.printStackTrace();
 	} catch (IOException ioException) {
-	    System.out.println("Initiator:IO Error line terminated abruptly:" + ioException);
+	    System.out.println("Initiator:IO Exception:" + ioException);
 	    ioException.printStackTrace();
 	} finally {
 	    System.out.println("Initiator:Closing resources");
-	    closeAllResource(dis, disResponse, dos, socket);
+	    closeAllResource(br, dis, dos, socket);
 	}
     }
 
@@ -88,10 +90,10 @@ public class Player {
 	    dis = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
 	    dos = new DataOutputStream(socket.getOutputStream());
 
-	    // Reads message and process until 10 messages are received and sent back
-
+	    // Reads message until allowed threshold of messages read, processed and sent
+	    // back
 	    int messageCount = 0;
-	    while (messageCount != 10) {
+	    while (messageCount != MAX_MESAGE_COUNT) {
 		String line = dis.readUTF();
 		System.out.println("Receiver:Got message:" + line);
 
@@ -103,6 +105,7 @@ public class Player {
 		dos.writeUTF(response);
 	    }
 	} catch (IOException ioException) {
+	    System.out.println("Initiator:IO Exception:" + ioException);
 	    ioException.printStackTrace();
 	} finally {
 	    System.out.println("Receiver:Closing resources");

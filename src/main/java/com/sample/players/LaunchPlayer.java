@@ -16,20 +16,19 @@ public class LaunchPlayer {
 	    System.exit(-1);
 	}
 
-	for (String input : args) {
-	    if (input.equalsIgnoreCase(INITIATOR)) {
+	String input = args[0];
+	if (input.equalsIgnoreCase(INITIATOR)) {
 
-		// Starting initiator
-		Player initiator = new Player();
-		initiator.startInitiator();
-	    } else if (input.equalsIgnoreCase(RECEIVER)) {
+	    // Starting initiator
+	    Player initiator = new Player();
+	    initiator.startInitiator();
+	} else if (input.equalsIgnoreCase(RECEIVER)) {
 
-		// Starting receiver
-		Player receiver = new Player();
-		receiver.startReceiver();
-	    } else {
-		System.out.println("Invalid input. Valid values : receiver/initiator");
-	    }
+	    // Starting receiver
+	    Player receiver = new Player();
+	    receiver.startReceiver();
+	} else {
+	    System.out.println("Invalid input. Valid values : receiver/initiator");
 	}
 	System.out.println("Ending the communication");
     }
