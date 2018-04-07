@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Built-By: pavu
+Class-Path: commons-io-2.5.jar
+Build-Jdk: 1.8.0_161
+Created-By: Maven Integration for Eclipse
+Main-Class: com.sample.players.LaunchPlayer
+
