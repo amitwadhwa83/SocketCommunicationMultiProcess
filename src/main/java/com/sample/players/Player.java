@@ -48,8 +48,7 @@ public class Player {
 	    // received back
 	    while (messageCount != MAX_MESAGE_COUNT) {
 		messageCount++;
-		String line = br.readLine();
-		String message = line + COUNT_DELIMITER + messageCount;
+		String message = br.readLine() + COUNT_DELIMITER + messageCount;
 		System.out.println("Initiator:Sending message:" + message);
 
 		// Sending message with delimited count
@@ -99,7 +98,9 @@ public class Player {
 
 		// Sending back message with concatenated count
 		String[] inputArray = line.split(COUNT_DELIMITER);
+
 		messageCount = Integer.parseInt(inputArray[1]);
+
 		String response = inputArray[0].concat(inputArray[1]);
 		System.out.println("Receiver:Sending back message:" + response);
 		dos.writeUTF(response);

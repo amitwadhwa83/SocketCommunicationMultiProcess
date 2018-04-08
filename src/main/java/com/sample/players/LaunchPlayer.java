@@ -12,7 +12,7 @@ public class LaunchPlayer {
     public static void main(String args[]) {
 
 	if (null == args || args.length < 1) {
-	    System.out.println("Please provide atleast one value");
+	    System.out.println("Please provide an input value");
 	    System.exit(-1);
 	}
 
@@ -20,13 +20,11 @@ public class LaunchPlayer {
 	if (input.equalsIgnoreCase(INITIATOR)) {
 
 	    // Starting initiator
-	    Player initiator = new Player();
-	    initiator.startInitiator();
+	    new Player().startInitiator();
 	} else if (input.equalsIgnoreCase(RECEIVER)) {
 
 	    // Starting receiver
-	    Player receiver = new Player();
-	    receiver.startReceiver();
+	    new Player().startReceiver();
 	} else {
 	    System.out.println("Invalid input. Valid values : receiver/initiator");
 	}
