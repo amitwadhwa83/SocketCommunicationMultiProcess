@@ -1,2 +1,2 @@
-# SocketCommMultiProcess
+# SocketCommunicationMultiProcess
 Demo socket programming basics 
